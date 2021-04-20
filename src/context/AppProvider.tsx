@@ -43,9 +43,13 @@ const AppProvider = ({ children }: AuxProps): JSX.Element => {
 
 	const update = (type: string, id: number, item: User | number) => {
 		setAppContext((prevState) => {
+			let updater;
+			if (type === 'users') {
+				updater = prevState.users.map((u) => (u.id !== id ? u : item));
+			}
 			return {
 				...prevState,
-				[type[id]]: item,
+				[type]: updater,
 			};
 		});
 	};

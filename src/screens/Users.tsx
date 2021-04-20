@@ -1,36 +1,147 @@
-import React, {
-	FC,
-	useContext,
-	useEffect,
-	useState,
-	SetStateAction,
-} from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 
 import { Spin, Space } from 'antd';
-import { Table, Tag } from 'antd';
+import { Table } from 'antd';
 
-import {
-	DeleteOutlined,
-	DeleteFilled,
-	PlusCircleOutlined,
-	PlusCircleFilled,
-	EditFilled,
-} from '@ant-design/icons';
+import { DeleteFilled, EditFilled } from '@ant-design/icons';
 
 import AppContext from '../context/AppContext';
-import { User, users as TPUSERS } from '../constants/types';
-import { Popconfirm, message } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { User } from '../constants/types';
 
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 
-import { Input, Select, Form, Checkbox } from 'antd';
-import { FormInstance } from 'antd/lib/form';
+import { Input, Select, Form } from 'antd';
 
 const { Option } = Select;
+
+interface CollectionCreateFormProps {
+	visible: boolean;
+	currentUserId: number;
+	defaultValue: User;
+	onCreate: (values: User) => void;
+	onCancel: () => void;
+}
+
+const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({
+	visible,
+	onCreate,
+	onCancel,
+	defaultValue,
+}) => {
+	const [form] = Form.useForm();
+	const { units, companies } = useContext(AppContext);
+
+	return (
+		<Modal
+			visible={visible}
+			title="Editar"
+			okText="Salvar"
+			cancelText="Cancelar"
+			onCancel={onCancel}
+			onOk={() => {
+				form
+					.validateFields()
+					.then((values) => {
+						form.resetFields();
+						onCreate(values);
+					})
+					.catch((info) => {
+						console.log('Validate Failed:', info);
+					});
+			}}
+		>
+			<Form
+				form={form}
+				layout="vertical"
+				name="form_in_modal"
+				initialValues={{ modifier: 'true' }}
+			>
+				<Form.Item
+					name="name"
+					label="Nome"
+					rules={[
+						{
+							required: true,
+							message: 'Por favor, digite o nome!',
+						},
+					]}
+					initialValue={defaultValue.name}
+				>
+					<Input />
+				</Form.Item>
+				<Form.Item
+					name="email"
+					label="Email"
+					rules={[
+						{
+							required: true,
+							message: 'Por favor, digite o email!',
+						},
+					]}
+					initialValue={defaultValue.email}
+				>
+					<Input />
+				</Form.Item>
+				<Form.Item
+					name="companyId"
+					label="Compania"
+					initialValue={defaultValue.companyId}
+					rules={[
+						{
+							required: true,
+							message: 'Por favor, selecione!',
+						},
+					]}
+				>
+					<Select placeholder="" allowClear>
+						{companies.map((item) => {
+							return (
+								<Option value={item.id} key={item.id}>
+									{item.name}
+								</Option>
+							);
+						})}
+					</Select>
+				</Form.Item>
+
+				<Form.Item
+					name="unitId"
+					label="Unidade"
+					initialValue={defaultValue.unitId}
+					rules={[
+						{
+							required: true,
+							message: 'Por favor, selecione!',
+						},
+					]}
+				>
+					<Select placeholder="" allowClear>
+						{units.map((item) => {
+							return (
+								<Option value={item.id} key={item.id}>
+									{item.name}
+								</Option>
+							);
+						})}
+					</Select>
+				</Form.Item>
+			</Form>
+		</Modal>
+	);
+};
+
 const Users: FC = () => {
-	const { users, getUsers, delUser, units, companies } = useContext(AppContext);
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const { users, getUsers, delUser, units, companies, updateUser } = useContext(
+		AppContext
+	);
+	const [visible, setVisible] = useState(false);
+	const [currentUserId, setCurrentUserId] = useState(0);
+
+	const onSave = (values: User) => {
+		console.log('Received values of form: ', values);
+		updateUser(currentUserId, values);
+		setVisible(false);
+	};
 	const [user, setUser] = useState<User>({
 		id: 0,
 		name: '',
@@ -38,8 +149,6 @@ const Users: FC = () => {
 		unitId: 0,
 		companyId: 0,
 	});
-
-	const [form] = Form.useForm();
 
 	const columns = [
 		{
@@ -61,7 +170,8 @@ const Users: FC = () => {
 			key: 'companyId',
 			render: function getComany(id: number) {
 				const companyName = companies.filter((i) => i.id === id);
-				return companyName[0].name;
+				if (companyName[0]) return companyName[0].name;
+				else return 'Not found';
 			},
 		},
 		{
@@ -70,7 +180,7 @@ const Users: FC = () => {
 			key: 'unitId',
 			render: function getUnity(id: number) {
 				const unitName = units.filter((i) => i.id === id);
-				return unitName[0].name;
+				return unitName[0] ? unitName[0].name : 'Not found';
 			},
 		},
 		{
@@ -82,8 +192,9 @@ const Users: FC = () => {
 						<a>
 							<EditFilled
 								onClick={() => {
-									setIsModalVisible(true);
+									setVisible(true);
 									setUser(record);
+									setCurrentUserId(record.id);
 								}}
 							/>
 						</a>
@@ -119,93 +230,20 @@ const Users: FC = () => {
 		} else return false;
 	};
 
-	const layout = {
-		labelCol: { span: 8 },
-		wrapperCol: { span: 16 },
-	};
-	const tailLayout = {
-		wrapperCol: { offset: 8, span: 16 },
-	};
-
-	const formRef = React.createRef<FormInstance>();
-
-	const handleForm = () => {
-		// const user = users[]
-		return (
-			<Form
-				{...layout}
-				form={form}
-				name="control-hooks"
-				// onFinish={onFinish}
-				// name="basic"
-				initialValues={{ remember: true }}
-				onFinish={(values: any) => console.log(values)}
-				onFinishFailed={() => alert('failed')}
-			>
-				<Form.Item
-					label="Nome"
-					name="nome"
-					rules={[
-						{ required: true, message: 'Por favor, digite o nome do usuário' },
-					]}
-				>
-					<Input
-						value={user?.name}
-						defaultValue={user?.name}
-						onChange={(e) => {
-							console.log(user);
-							setUser({ ...user, name: 'test' });
-							console.log(user);
-						}}
-					/>
-				</Form.Item>
-
-				<Form.Item
-					label="Email"
-					name="email"
-					rules={[{ required: true, message: 'Digite o email do usuário' }]}
-				>
-					<Input />
-				</Form.Item>
-
-				<Form.Item name="gender" label="Gender" rules={[{ required: true }]}>
-					<Select
-						placeholder="Select a option and change input text above"
-						onChange={(value) => console.log(value)}
-						allowClear
-					>
-						<Option value="male">male</Option>
-						<Option value="female">female</Option>
-						<Option value="other">other</Option>
-					</Select>
-				</Form.Item>
-			</Form>
-		);
-	};
-
 	return (
 		<>
 			{didUsersUnitsLoad() ? (
 				<>
 					<Table columns={columns} dataSource={users} />
-					<Modal
-						title="Usuários"
-						visible={isModalVisible}
-						onOk={() => {
-							setIsModalVisible(false);
-							form.setFieldsValue({
-								note: 'Hello world!',
-								gender: 'male',
-							});
-							console.log(form.getFieldsValue);
-						}}
+					<CollectionCreateForm
+						visible={visible}
+						onCreate={onSave}
+						currentUserId={currentUserId}
+						defaultValue={user}
 						onCancel={() => {
-							setIsModalVisible(false);
-							form.resetFields();
+							setVisible(false);
 						}}
-					>
-						{handleForm()}
-					</Modal>
+					/>
 				</>
 			) : (
 				handleLoad()
