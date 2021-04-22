@@ -1,6 +1,23 @@
 # Desafio 
 
-![](/ims/user.png)
+
+## Requisitos técnicos
+
+| Engine (react)       | :heavy_check_mark: |
+|----------------------|--------------------|
+| Graficos(Highcharts) | :heavy_check_mark: |
+| Typescript           | :heavy_check_mark: |
+| Cleam code           | :heavy_check_mark: |
+| Ant Design React     | :heavy_check_mark: |
+
+
+## Imagens 
+
+![](/imgs/assets.png)
+![](/imgs/assets_modal.png)
+![](/imgs/users.png)
+![](/imgs/graphs_bubble.png)
+![](/imgs/graphs_scatter.png)
 
 
 
