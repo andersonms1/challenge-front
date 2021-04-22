@@ -1,10 +1,7 @@
-import { Asset, User, Company, Unit, companies } from '../constants/types';
+import { Company, Unit } from '../constants/types';
 
 export function getCompany(id: number, companies: Array<Company>): string {
 	const companyName = companies.filter((i) => i.id === id);
-	console.log(id);
-	console.log(companies);
-	console.log(companyName);
 	return companyName[0] ? companyName[0].name : 'Not found';
 }
 

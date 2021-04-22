@@ -1,5 +1,9 @@
 # Desafio 
 
+## Acesso link
+
+[:link: :house: Link to challenge](https://prod.d1y8cadmq4msv5.amplifyapp.com)
+
 
 ## Requisitos técnicos
 
@@ -21,7 +25,7 @@
 
 
 
-## Bugs conhecidos
+## Limitações
 
 Devido a limitação de tempo: não foram tratados, porem não esquecidos.
 O form do ant salva o estado anterior, logo mesmo que eu passe o prop initalValues, é renderizado o anterior ainda.

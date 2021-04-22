@@ -21,7 +21,14 @@ import {
 
 const { Title, Paragraph, Text } = Typography;
 const Assets: FC = () => {
-	const { assets, getAssets, units, companies } = useContext(AppContext);
+	const {
+		assets,
+		getAssets,
+		units,
+		companies,
+		delAsset,
+		updateAsset,
+	} = useContext(AppContext);
 	const [openDelgateTask, setOpenDelegateState] = useState(false);
 	const [openAsset, setOpenAsset] = useState(false);
 	const [delegateTask, setDelegateTask] = useState<Asset>({
@@ -123,7 +130,15 @@ const Assets: FC = () => {
 						<br />
 						Tempo total de vida: <Tag>{`${totalCollectsUptime} Hrs`}</Tag>
 						<br />
-						Tempo em execução: <Tag>{`${totalUptime.toFixed()} Hrs`}</Tag>
+						Tempo em execução:{' '}
+						<Tag>{`${
+							// Number.isInteger(totalUptime)
+							// 	? totalUptime.toFixed()
+							// 	: typeof totalUptime
+							typeof totalUptime === typeof 0.1
+								? totalUptime.toFixed()
+								: 'Not a number'
+						} Hrs`}</Tag>
 						<br />
 						Ultima atualização:
 						<Tag>{d}</Tag>
@@ -165,12 +180,12 @@ const Assets: FC = () => {
 			title: 'Empresa',
 			dataIndex: 'id',
 			key: 'id',
-			render: function getCompany(crr: string, record: Asset) {
+			render: function getCompany(crr: number, record: Asset) {
 				return (
 					<div>
 						<Text>{getCompanyName(record.companyId, companies)}</Text>
 						<br />
-						<Text strong>{getCompanyName(record.unitId, units)}</Text>
+						<Text strong>{getUnityName(record.unitId, units)}</Text>
 					</div>
 				);
 			},
@@ -182,7 +197,11 @@ const Assets: FC = () => {
 			render: function getActions(current: number, record: Asset) {
 				return (
 					<div>
-						<DeleteTwoTone />
+						<DeleteTwoTone
+							onClick={() => {
+								delAsset(current);
+							}}
+						/>
 						<EditTwoTone
 							onClick={() => {
 								setDelegateTask(record);
@@ -216,11 +235,54 @@ const Assets: FC = () => {
 		// return void
 	};
 
-	const onEditAsset = (values: Asset) => {
+	const onEditAsset = (values: Asset | any) => {
 		console.log(values);
+		console.log(values?.specifications);
+		const {
+			id,
+			sensors,
+			model,
+			status,
+			healthscore,
+			name,
+			image,
+			specifications,
+			metrics,
+			unitId,
+			companyId,
+		} = values;
+		const _asset: Asset = {
+			id: id ? id : delegateTask.id,
+			sensors: sensors ? sensors : delegateTask.sensors,
+			model: model ? model : delegateTask.model,
+			status: status ? status : delegateTask.status,
+			healthscore: healthscore ? healthscore : delegateTask.healthscore,
+			name: name ? name : delegateTask.name,
+			image: image ? image : delegateTask.image,
+			specifications: {
+				maxTemp: values.maxTemp
+					? values.maxTemp
+					: delegateTask.specifications.maxTemp,
+				power: values.power ? values.power : delegateTask.specifications.power,
+				rpm: values.rpm ? values.rpm : delegateTask.specifications.rpm,
+			},
+			metrics: {
+				totalCollectsUptime: values.totalCollectsUptime
+					? values.totalCollectsUptime
+					: delegateTask.metrics.totalCollectsUptime,
+				lastUptimeAt: values.lastUptimeAt
+					? values.lastUptimeAt
+					: delegateTask.metrics.lastUptimeAt,
+				totalUptime: values.totalUptime
+					? values.totalUptime
+					: delegateTask.metrics.totalUptime,
+			},
+			// unityId: unitId ? unitId : delegateTask.unityId,
+			unitId: unitId ? unitId : delegateTask.unitId,
+			companyId: companyId ? companyId : delegateTask.companyId,
+		};
+		updateAsset(delegateTask.id, _asset);
 		setOpenAsset(false);
-		alert('Abstraido logica de delegar usuários. ');
-		// return void
 	};
 
 	return (

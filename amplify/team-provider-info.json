@@ -1,0 +1,23 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-challengefront-prod-90634-authRole",
+            "UnauthRoleArn": "arn:aws:iam::628885597536:role/amplify-challengefront-prod-90634-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::628885597536:role/amplify-challengefront-prod-90634-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-challengefront-prod-90634-deployment",
+            "UnauthRoleName": "amplify-challengefront-prod-90634-unauthRole",
+            "StackName": "amplify-challengefront-prod-90634",
+            "StackId": "arn:aws:cloudformation:us-east-1:628885597536:stack/amplify-challengefront-prod-90634/340fc2b0-a363-11eb-b0ea-0ebece173f89",
+            "AmplifyAppId": "d1y8cadmq4msv5"
+        },
+        "categories": {
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1y8cadmq4msv5",
+                    "type": "manual"
+                }
+            }
+        }
+    }
+}

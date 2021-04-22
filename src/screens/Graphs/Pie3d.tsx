@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { assets } from '../../constants';
 
 const options = {
 	chart: {

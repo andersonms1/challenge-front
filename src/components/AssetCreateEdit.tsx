@@ -42,21 +42,21 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.name}
 						>
 							<Input />
 						</Form.Item>
 
 						<Form.Item
-							name="type"
-							label="Tipo"
+							name="model"
+							label="Modelo"
 							rules={[
 								{
 									required: true,
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.model}
 						>
 							<Input />
 						</Form.Item>
@@ -70,7 +70,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.image}
 						>
 							<Input />
 						</Form.Item>
@@ -88,7 +88,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.specifications.maxTemp}
 						>
 							<Input />
 						</Form.Item>
@@ -101,7 +101,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.specifications.rpm}
 						>
 							<Input />
 						</Form.Item>
@@ -115,7 +115,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.specifications.power}
 						>
 							<Input />
 						</Form.Item>
@@ -133,7 +133,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.sensors}
 						>
 							<Input />
 						</Form.Item>
@@ -146,10 +146,10 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.metrics.totalCollectsUptime}
 						>
 							<Input />
-						</Form.Item>{' '}
+						</Form.Item>
 						<Form.Item
 							name="totalUptime"
 							label="Tempo de trabalho atual"
@@ -159,7 +159,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.metrics.totalUptime}
 						>
 							<Input />
 						</Form.Item>{' '}
@@ -172,7 +172,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.metrics.lastUptimeAt}
 						>
 							<Input />
 						</Form.Item>
@@ -191,7 +191,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.healthscore}
 						>
 							<Input />
 						</Form.Item>
@@ -204,7 +204,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.status}
 						>
 							<Input />
 						</Form.Item>
@@ -223,7 +223,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.companyId}
 						>
 							<Input />
 						</Form.Item>
@@ -236,7 +236,7 @@ const AssetCreateEdit: React.FC<AssetrCreateEditFormProps> = ({
 									message: 'Por favor, digite o nome!',
 								},
 							]}
-							// initialValue={defaultValue.name}
+							initialValue={asset.unitId}
 						>
 							<Input />
 						</Form.Item>

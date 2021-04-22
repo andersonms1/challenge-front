@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMore from 'highcharts/highcharts-more';
-import { assets } from '../../constants';
 
 HighchartsMore(Highcharts);
 

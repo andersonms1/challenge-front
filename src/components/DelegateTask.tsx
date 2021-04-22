@@ -8,7 +8,6 @@ import AppContext from '../context/AppContext';
 const { Option } = Select;
 
 import { Asset, User } from '../constants/types';
-import users from '../constants/users';
 
 interface DelegateTaskFormProps {
 	visible: boolean;
@@ -24,7 +23,7 @@ const DelegateTask: React.FC<DelegateTaskFormProps> = ({
 	asset,
 }) => {
 	const [form] = Form.useForm();
-	const { units, companies } = useContext(AppContext);
+	const { units, companies, assets, users } = useContext(AppContext);
 
 	return (
 		<Modal

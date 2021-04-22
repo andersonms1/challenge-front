@@ -22,7 +22,9 @@ const AppContext = createContext({
 	getAssets: () => {},
 	getCompanies: () => {},
 	updateUser: (id: number, user: User) => {},
+	updateAsset: (id: number, user: Asset) => {},
 	delUser: (id: number) => {},
+	delAsset: (id: number) => {},
 });
 
 export default AppContext;

@@ -41,27 +41,49 @@ const AppProvider = ({ children }: AuxProps): JSX.Element => {
 		}
 	};
 
-	const update = (type: string, id: number, item: User | number) => {
+	const update = (type: string, id: number, item: User | Asset | any) => {
 		setAppContext((prevState) => {
-			let updater;
 			if (type === 'users') {
-				updater = prevState.users.map((u) => (u.id !== id ? u : item));
+				return {
+					...prevState,
+					[type]: prevState.users.map((u) => (u.id !== id ? u : item)),
+				};
+			} else if (type === 'assets') {
+				return {
+					...prevState,
+					[type]: prevState.assets.map((u) => (u.id !== id ? u : item)),
+				};
+			} else {
+				console.log(new Error());
+				return {
+					...prevState,
+				};
 			}
-			return {
-				...prevState,
-				[type]: updater,
-			};
 		});
 	};
 
 	const del = (type: string, id: number) => {
 		setAppContext((prevState) => {
-			return {
-				...prevState,
-				[type]: (prevState.users = prevState.users.filter(
-					(item: User) => item.id !== id
-				)),
-			};
+			if (type === 'users') {
+				return {
+					...prevState,
+					[type]: (prevState.users = prevState.users.filter(
+						(item: User) => item.id !== id
+					)),
+				};
+			} else if (type === 'assets') {
+				return {
+					...prevState,
+					[type]: (prevState.assets = prevState.assets.filter(
+						(item: Asset) => item.id !== id
+					)),
+				};
+			} else {
+				console.log(new Error());
+				return {
+					...prevState,
+				};
+			}
 		});
 	};
 	const getUsers = () => {
@@ -91,8 +113,14 @@ const AppProvider = ({ children }: AuxProps): JSX.Element => {
 		del('users', id);
 	};
 
-	// const users: User[] = [];
-	// const assets: Asset[] = [];
+	const delAsset = (id: number) => {
+		del('assets', id);
+	};
+
+	const updateAsset = (id: number, a: Asset) => {
+		update('assets', id, a);
+	};
+
 	const appState = {
 		users,
 		assets,
@@ -103,7 +131,9 @@ const AppProvider = ({ children }: AuxProps): JSX.Element => {
 		getAssets,
 		getUsers,
 		delUser,
+		delAsset,
 		updateUser,
+		updateAsset,
 	};
 	const [appContext, setAppContext] = useState(appState);
 	return (
