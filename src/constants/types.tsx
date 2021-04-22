@@ -17,6 +17,8 @@ export type Asset = {
 	image: string;
 	specifications: {
 		maxTemp: number;
+		rpm: number;
+		power: number;
 	};
 	metrics: {
 		totalCollectsUptime: number;

@@ -66,12 +66,14 @@ const AppProvider = ({ children }: AuxProps): JSX.Element => {
 	};
 	const getUsers = () => {
 		get('users');
-		getCompanies();
-		getUnits();
+		// getCompanies();
+		// getUnits();
 	};
 
 	const getAssets = () => {
 		get('assets');
+		getCompanies();
+		getUnits();
 	};
 
 	const getUnits = () => {
